@@ -1,0 +1,18 @@
+{
+  "test_dir": "example-test",
+  "engine": "GPT-5",
+  "client": "Codex",
+  "config": "low",
+  "completed": "SUCCESS",
+  "time_minutes": 16.6,
+  "tokens": 227870,
+  "quality_score": 8,
+  "notes": "整体可用",
+  "detailed_comments": "功能完整，测试通过，并发控制有效",
+  "issues": [],
+  "metadata": {
+    "test_date": "2025-10-02",
+    "zig_version": "0.15.1",
+    "verified": true
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "test_dir": "opus4.1-dorid",
+  "engine": "Claude Opus 4.1",
+  "client": "Factory Droid",
+  "config": "opus-4.1",
+  "completed": "SUCCESS",
+  "time_minutes": 18,
+  "tokens": 3700000,
+  "quality_score": 9,
+  "quality_breakdown": {
+    "base_score": 8,
+    "bonus": {
+      "functionality": 1.0,
+      "code_quality": 1.0,
+      "performance": 1.0,
+      "total": 3.0
+    },
+    "penalty": {
+      "bugs": 0.0,
+      "workaround": 0.0,
+      "efficiency": -0.5,
+      "total": -0.5
+    },
+    "calculation": "8 + 3.0 - 0.5 = 10.5",
+    "final_score": 9,
+    "reasoning": "基础分8(SUCCESS), 功能完整+1.0, 代码质量高+1.0, 性能优秀(1秒364端口)+1.0, token较大(3.7M)-0.5, 上限10调整为9"
+  },
+  "notes": "成功，目前最快的",
+  "detailed_comments": "成功。用时18分钟，目前最快的。Factory Token Usage 3.7M。功能完全可用，性能优秀约1秒完成364端口扫描。除了贵没其他问题。",
+  "issues": [
+    "token消耗较大(3.7M)"
+  ],
+  "metadata": {
+    "test_date": "2025-10-25",
+    "zig_version": "0.15.1",
+    "verified": true,
+    "performance_test": "364 ports in ~1s",
+    "factory_token_usage": 3700000,
+    "raw_input_tokens": 517,
+    "cache_read": 4100000,
+    "output_tokens": 25100
+  }
+}

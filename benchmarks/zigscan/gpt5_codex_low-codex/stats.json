@@ -1,0 +1,39 @@
+{
+  "test_dir": "gpt5_codex_low-codex",
+  "engine": "GPT-5 (codex_low)",
+  "client": "Codex CLI",
+  "config": "codex_low",
+  "completed": "PARTIAL",
+  "time_minutes": 48.86,
+  "tokens": 487794,
+  "quality_score": 6,
+  "quality_breakdown": {
+    "base_score": 5,
+    "bonus": {
+      "functionality": 0.5,
+      "code_quality": 0.5,
+      "performance": 1.0,
+      "total": 2.0
+    },
+    "penalty": {
+      "bugs": -1.0,
+      "workaround": 0.0,
+      "efficiency": 0.0,
+      "total": -1.0
+    },
+    "calculation": "5 + 2.0 - 1.0 = 6",
+    "final_score": 6,
+    "reasoning": "基础分5(PARTIAL), 功能基本完整+0.5, 代码规范+0.5, 性能良好(153ms)+1.0, 但缺少文档和token偏大-1.0"
+  },
+  "notes": "大部分可用",
+  "detailed_comments": "大部分可用。用时48.86分钟，token用量487,794。没有给总结文档是特殊之处。功能测试正常，65535端口扫描约150ms。",
+  "issues": [
+    "token消耗较大(487K)",
+    "缺少总结文档"
+  ],
+  "metadata": {
+    "test_date": "2025-10-02",
+    "zig_version": "0.15.1",
+    "verified": true
+  }
+}

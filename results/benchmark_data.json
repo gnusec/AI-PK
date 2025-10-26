@@ -1,0 +1,791 @@
+[
+  {
+    "test_dir": "sonnet4.5-dorid-2025-10-25",
+    "engine": "Claude Sonnet 4.5",
+    "client": "Factory Droid",
+    "config": "2025-10-25",
+    "completed": "SUCCESS",
+    "time_minutes": 15,
+    "tokens": 172500,
+    "quality_score": 10,
+    "quality_breakdown": {
+      "base_score": 8,
+      "bonus": {
+        "functionality": 1.0,
+        "code_quality": 1.0,
+        "performance": 1.0,
+        "total": 3.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": 0.0
+      },
+      "calculation": "8 + 3.0 - 0.0 = 11",
+      "final_score": 10,
+      "reasoning": "基础分8(SUCCESS), 功能完整+1.0, 代码质量高+1.0, 性能优秀(5秒)+1.0, 无扣分, 上限10 = 满分10。时间短(15分钟)且token极少(172.5K)，比同期sonnet4.5版本(772.8K)节省4.5倍。"
+    },
+    "notes": "成功，非常流畅",
+    "detailed_comments": "成功。用时15分钟，Factory Token Usage 172.5K。非常流畅，token不多。功能完全可用，性能测试5秒完成500端口扫描。相比2025-10-10版本，时间更短且token节省4.5倍。",
+    "issues": [],
+    "metadata": {
+      "test_date": "2025-10-18",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "performance_test": "500 ports in 5s",
+      "factory_token_usage": 172500,
+      "raw_input_tokens": 68700,
+      "cache_read": 220800,
+      "output_tokens": 10600
+    }
+  },
+  {
+    "test_dir": "gpt5_hight-dorid",
+    "engine": "GPT-5 (hight)",
+    "client": "Factory Droid",
+    "config": "hight",
+    "completed": "SUCCESS",
+    "time_minutes": 30,
+    "tokens": 724800,
+    "quality_score": 9,
+    "notes": "完成度很高",
+    "detailed_comments": "30分钟完成，完成度很高，没问题。功能完整",
+    "issues": [],
+    "metadata": {
+      "test_date": "2025-10-25",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "factory_token_usage": 724800,
+      "raw_input": 266700,
+      "cache_read": 8700000,
+      "output": 38600
+    }
+  },
+  {
+    "test_dir": "opus4.1-dorid",
+    "engine": "Claude Opus 4.1",
+    "client": "Factory Droid",
+    "config": "opus-4.1",
+    "completed": "SUCCESS",
+    "time_minutes": 18,
+    "tokens": 3700000,
+    "quality_score": 9,
+    "quality_breakdown": {
+      "base_score": 8,
+      "bonus": {
+        "functionality": 1.0,
+        "code_quality": 1.0,
+        "performance": 1.0,
+        "total": 3.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": -0.5,
+        "total": -0.5
+      },
+      "calculation": "8 + 3.0 - 0.5 = 10.5",
+      "final_score": 9,
+      "reasoning": "基础分8(SUCCESS), 功能完整+1.0, 代码质量高+1.0, 性能优秀(1秒364端口)+1.0, token较大(3.7M)-0.5, 上限10调整为9"
+    },
+    "notes": "成功，目前最快的",
+    "detailed_comments": "成功。用时18分钟，目前最快的。Factory Token Usage 3.7M。功能完全可用，性能优秀约1秒完成364端口扫描。除了贵没其他问题。",
+    "issues": [
+      "token消耗较大(3.7M)"
+    ],
+    "metadata": {
+      "test_date": "2025-10-25",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "performance_test": "364 ports in ~1s",
+      "factory_token_usage": 3700000,
+      "raw_input_tokens": 517,
+      "cache_read": 4100000,
+      "output_tokens": 25100
+    }
+  },
+  {
+    "test_dir": "sonnet4.5-dorid-2025-10-10",
+    "engine": "Claude Sonnet 4.5",
+    "client": "Factory Droid",
+    "config": "2025-10-10",
+    "completed": "SUCCESS",
+    "time_minutes": 24,
+    "tokens": 772800,
+    "quality_score": 9,
+    "quality_breakdown": {
+      "base_score": 8,
+      "bonus": {
+        "functionality": 1.0,
+        "code_quality": 0.5,
+        "performance": 1.0,
+        "total": 2.5
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": 0.0
+      },
+      "calculation": "8 + 2.5 - 0.0 = 10.5",
+      "final_score": 9,
+      "reasoning": "基础分8(SUCCESS), 功能完整+1.0, 代码规范+0.5, 性能优秀(0.38-5秒)+1.0, 上限10调整为9"
+    },
+    "notes": "成功",
+    "detailed_comments": "成功。用时24分钟，Factory Token Usage 772.8K。任务完成，功能正常，token不多。性能测试0.38秒-5秒完成476端口扫描（并发2000时最快0.38秒）。",
+    "issues": [],
+    "metadata": {
+      "test_date": "2025-10-10",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "performance_test": "476 ports in 0.38s (c=2000)",
+      "factory_token_usage": 772800,
+      "raw_input_tokens": 468,
+      "cache_creation": 179100,
+      "cache_read": 2700000,
+      "output_tokens": 30300
+    }
+  },
+  {
+    "test_dir": "gpt5_codex_medium-codex",
+    "engine": "GPT-5 (codex_medium)",
+    "client": "Codex CLI",
+    "config": "codex_medium",
+    "completed": "SUCCESS",
+    "time_minutes": 59.04,
+    "tokens": 483913,
+    "quality_score": 8,
+    "quality_breakdown": {
+      "base_score": 8,
+      "bonus": {
+        "functionality": 1.0,
+        "code_quality": 0.5,
+        "performance": 1.0,
+        "total": 2.5
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": -0.5,
+        "total": -0.5
+      },
+      "calculation": "8 + 2.5 - 0.5 = 10",
+      "final_score": 8,
+      "reasoning": "基础分8(SUCCESS), 功能完整+1.0, 代码规范+0.5, 性能优秀(2.02秒)+1.0, 开发时间稍长(59分钟)-0.5, 上限10分但考虑时间调整为8"
+    },
+    "notes": "成功完成",
+    "detailed_comments": "成功。用时59.04分钟，token用量483,913。功能完整，性能测试2.02秒完成500端口扫描。",
+    "issues": [
+      "开发时间偏长(59分钟)"
+    ],
+    "metadata": {
+      "test_date": "2025-10-02",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "performance_test": "500 ports in 2.02s"
+    }
+  },
+  {
+    "test_dir": "grok-code-fast-1-roo",
+    "engine": "Grok",
+    "client": "Roo Code",
+    "config": "code-fast-1",
+    "completed": "SUCCESS",
+    "time_minutes": 300,
+    "tokens": null,
+    "quality_score": 7,
+    "quality_breakdown": {
+      "base_score": 8,
+      "bonus": {
+        "functionality": 1.0,
+        "code_quality": 0.5,
+        "performance": 0.5,
+        "total": 2.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": -1.0,
+        "total": -1.0
+      },
+      "calculation": "8 + 2.0 - 1.0 = 9",
+      "final_score": 7,
+      "reasoning": "基础分8(SUCCESS), 功能完整+1.0, 代码规范+0.5, 性能合格+0.5, 开发时间极长(5小时)-1.0, 调整为7"
+    },
+    "notes": "可以用",
+    "detailed_comments": "可以用。断断续续5个小时完成，token用量未统计但提到'不老少'。功能正常可用。476端口扫描约5秒完成。",
+    "issues": [
+      "开发时间极长(5小时)",
+      "token用量未统计"
+    ],
+    "metadata": {
+      "test_date": "2025-10-25",
+      "zig_version": "0.15.1",
+      "verified": true
+    }
+  },
+  {
+    "test_dir": "qwen-qwen-cli",
+    "engine": "Qwen",
+    "client": "Qwen-CLI",
+    "config": "coder-model",
+    "completed": "SUCCESS",
+    "time_minutes": 159,
+    "tokens": 75400000,
+    "quality_score": 6,
+    "quality_breakdown": {
+      "base_score": 8,
+      "bonus": {
+        "functionality": 1.0,
+        "code_quality": 0.5,
+        "performance": 0.5,
+        "total": 2.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": -1.0,
+        "total": -1.0
+      },
+      "calculation": "8 + 2.0 - 1.0 = 9",
+      "final_score": 6,
+      "reasoning": "基础分8(SUCCESS), 功能完整+1.0, 代码规范+0.5, 性能合格+0.5, token极度浪费(75.4M)-1.0, 调整为6"
+    },
+    "notes": "成功，全自动化，国产agent扛把子",
+    "detailed_comments": "成功。API时长2h39m，实际时长12h45m（全自动化不需人工干预）。Token用量极大75.4M input。功能正常可用。qwen-cli无可厚非国产agent里头抗靶子了，每天2000次免费call。最后总结时可能有无限循环输出，但程序本身没问题。",
+    "issues": [
+      "token消耗极大(75.4M)",
+      "实际时长极长(12.75小时)",
+      "最后总结可能无限循环输出"
+    ],
+    "metadata": {
+      "test_date": "2025-10-25",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "wall_time_minutes": 765,
+      "api_time_minutes": 159,
+      "tool_calls": 316,
+      "success_rate": "91.8%",
+      "input_tokens": 75395870,
+      "output_tokens": 111484,
+      "cache_tokens": 72708603,
+      "cache_rate": "96.4%"
+    }
+  },
+  {
+    "test_dir": "glm4.6-claudecode",
+    "engine": "GLM-4.6",
+    "client": "ClaudeCode",
+    "config": "4.6",
+    "completed": "PARTIAL",
+    "time_minutes": 155.98,
+    "tokens": 5863795,
+    "quality_score": 6,
+    "quality_breakdown": {
+      "base_score": 5,
+      "bonus": {
+        "functionality": 0.5,
+        "code_quality": 0.5,
+        "performance": 1.0,
+        "total": 2.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": -1.0,
+        "efficiency": 0.0,
+        "total": -1.0
+      },
+      "calculation": "5 + 2.0 - 1.0 = 6",
+      "final_score": 6,
+      "reasoning": "基础分5(PARTIAL), 功能基本完整+0.5, 代码规范+0.5, 性能优秀(3秒)+1.0, 投机用ncat-1.0"
+    },
+    "notes": "总体可用，投机使用ncat",
+    "detailed_comments": "总体可用，但是刚开始，他是投机的直接用ncat替代了socket发包。用了约586万tokens。性能测试3.07秒完成500端口扫描。",
+    "issues": [
+      "投机取巧用ncat而非socket",
+      "token消耗大(5.8M)"
+    ],
+    "metadata": {
+      "test_date": "2025-10-25",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "wall_time_minutes": 155.98,
+      "api_time_minutes": 25.47,
+      "input_tokens": 518800,
+      "output_tokens": 50500,
+      "cache_read": 23300000,
+      "total_cost": 9.3
+    }
+  },
+  {
+    "test_dir": "gpt5_codex_low-codex",
+    "engine": "GPT-5 (codex_low)",
+    "client": "Codex CLI",
+    "config": "codex_low",
+    "completed": "PARTIAL",
+    "time_minutes": 48.86,
+    "tokens": 487794,
+    "quality_score": 6,
+    "quality_breakdown": {
+      "base_score": 5,
+      "bonus": {
+        "functionality": 0.5,
+        "code_quality": 0.5,
+        "performance": 1.0,
+        "total": 2.0
+      },
+      "penalty": {
+        "bugs": -1.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": -1.0
+      },
+      "calculation": "5 + 2.0 - 1.0 = 6",
+      "final_score": 6,
+      "reasoning": "基础分5(PARTIAL), 功能基本完整+0.5, 代码规范+0.5, 性能良好(153ms)+1.0, 但缺少文档和token偏大-1.0"
+    },
+    "notes": "大部分可用",
+    "detailed_comments": "大部分可用。用时48.86分钟，token用量487,794。没有给总结文档是特殊之处。功能测试正常，65535端口扫描约150ms。",
+    "issues": [
+      "token消耗较大(487K)",
+      "缺少总结文档"
+    ],
+    "metadata": {
+      "test_date": "2025-10-02",
+      "zig_version": "0.15.1",
+      "verified": true
+    }
+  },
+  {
+    "test_dir": "gpt5_hight-codex",
+    "engine": "GPT-5 (hight)",
+    "client": "Codex CLI",
+    "config": "hight",
+    "completed": "PARTIAL",
+    "time_minutes": 20.4,
+    "tokens": 151588,
+    "quality_score": 6,
+    "quality_breakdown": {
+      "base_score": 5,
+      "bonus": {
+        "functionality": 0.5,
+        "code_quality": 0.5,
+        "performance": 1.0,
+        "total": 2.0
+      },
+      "penalty": {
+        "bugs": -1.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": -1.0
+      },
+      "calculation": "5 + 2.0 - 1.0 = 6",
+      "final_score": 6,
+      "reasoning": "基础分5(PARTIAL-大部分可用), 功能基本完整+0.5, 代码规范+0.5, 性能优秀(203ms扫描65535端口)+1.0, 直接运行报错bug-1.0"
+    },
+    "notes": "大部分可用",
+    "detailed_comments": "大部分可用。用时20.4分钟，token用量151,588。性能优秀65535端口仅203ms。不加参数直接运行会报错。",
+    "issues": [
+      "不加参数直接运行会报错"
+    ],
+    "metadata": {
+      "test_date": "2025-10-01",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "performance_test": "65535 ports in 203ms"
+    }
+  },
+  {
+    "test_dir": "gpt5_low-codex",
+    "engine": "GPT-5 (low)",
+    "client": "Codex CLI",
+    "config": "low",
+    "completed": "PARTIAL",
+    "time_minutes": 16.59,
+    "tokens": 227870,
+    "quality_score": 5,
+    "quality_breakdown": {
+      "base_score": 5,
+      "bonus": {
+        "functionality": 0.5,
+        "code_quality": 0.5,
+        "performance": 1.0,
+        "total": 2.0
+      },
+      "penalty": {
+        "bugs": -2.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": -2.0
+      },
+      "calculation": "5 + 2.0 - 2.0 = 5",
+      "final_score": 5,
+      "reasoning": "基础分5(PARTIAL), 功能基本完整+0.5, 代码规范+0.5, 性能优秀+1.0, 并发控制无效(核心功能失效)严重bug-2.0"
+    },
+    "notes": "整体可用但核心功能缺陷",
+    "detailed_comments": "整体可用但并发控制无效。用时16.59分钟，token用量227,870。性能优秀约1秒完成65535端口。并发控制是核心功能，无效是严重缺陷。",
+    "issues": [
+      "并发控制无效(核心功能缺陷)"
+    ],
+    "metadata": {
+      "test_date": "2025-10-02",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "performance_test": "65535 ports in ~1s"
+    }
+  },
+  {
+    "test_dir": "gpt5_medium-codex",
+    "engine": "GPT-5 (medium)",
+    "client": "Codex CLI",
+    "config": "medium",
+    "completed": "PARTIAL",
+    "time_minutes": 22.1,
+    "tokens": 161406,
+    "quality_score": 5,
+    "quality_breakdown": {
+      "base_score": 5,
+      "bonus": {
+        "functionality": 0.5,
+        "code_quality": 0.5,
+        "performance": 0.5,
+        "total": 1.5
+      },
+      "penalty": {
+        "bugs": -2.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": -2.0
+      },
+      "calculation": "5 + 1.5 - 2.0 = 4.5",
+      "final_score": 5,
+      "reasoning": "基础分5(PARTIAL-大部分可用), 功能基本完整+0.5, 代码规范+0.5, 性能合格+0.5, integer overflow严重bug-2.0, 调整为5"
+    },
+    "notes": "大部分可用，并发控制无效",
+    "detailed_comments": "大部分可用。用时22.1分钟，token用量161,406。并发控制无效。扫描65535端口时出现integer overflow崩溃，需改为65534才能运行。",
+    "issues": [
+      "integer overflow崩溃(严重)",
+      "并发控制无效"
+    ],
+    "metadata": {
+      "test_date": "2025-10-02",
+      "zig_version": "0.15.1",
+      "verified": true
+    }
+  },
+  {
+    "test_dir": "grok-code-fast-1-kilo",
+    "engine": "Grok",
+    "client": "Kilo Code",
+    "config": "code-fast-1",
+    "completed": "PARTIAL",
+    "time_minutes": 180,
+    "tokens": 16800000,
+    "quality_score": 5,
+    "quality_breakdown": {
+      "base_score": 5,
+      "bonus": {
+        "functionality": 0.5,
+        "code_quality": 0.5,
+        "performance": 1.0,
+        "total": 2.0
+      },
+      "penalty": {
+        "bugs": -1.0,
+        "workaround": 0.0,
+        "efficiency": -1.0,
+        "total": -2.0
+      },
+      "calculation": "5 + 2.0 - 2.0 = 5",
+      "final_score": 5,
+      "reasoning": "基础分5(PARTIAL), 功能基本可用+0.5, 代码质量合格+0.5, 性能优秀(236ms)+1.0, 边界值bug(65535端口overflow)-1.0, 极度低效(3小时+16.8M tokens)-1.0"
+    },
+    "notes": "基本可用",
+    "detailed_comments": "基本可用。用时至少3小时，token用量16.8M。性能优秀236ms完成65534端口。扫描65535端口时integer overflow崩溃（边界值问题，易修复）。开发时间和token消耗极大。",
+    "issues": [
+      "integer overflow边界值bug(易修复)",
+      "开发时间极长(3小时+)",
+      "token消耗极大(16.8M)"
+    ],
+    "metadata": {
+      "test_date": "2025-10-25",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "performance_test": "65534 ports in 236ms"
+    }
+  },
+  {
+    "test_dir": "Supernova-cline",
+    "engine": "Supernova",
+    "client": "Cline",
+    "config": "default",
+    "completed": "FAILED",
+    "time_minutes": null,
+    "tokens": null,
+    "quality_score": 0,
+    "quality_breakdown": {
+      "base_score": 0,
+      "bonus": {
+        "functionality": 0.0,
+        "code_quality": 0.0,
+        "performance": 0.0,
+        "total": 0.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": 0.0
+      },
+      "calculation": "0 + 0.0 - 0.0 = 0",
+      "final_score": 0,
+      "reasoning": "基础分0(FAILED-无法成功), 完全失败无加分"
+    },
+    "notes": "无法成功",
+    "detailed_comments": "无法成功。不再测试了。",
+    "issues": [
+      "无法成功"
+    ],
+    "metadata": {
+      "test_date": "2025-10-04",
+      "zig_version": "0.15.1",
+      "verified": true
+    }
+  },
+  {
+    "test_dir": "Supernova-kilo",
+    "engine": "Supernova",
+    "client": "Kilo Code",
+    "config": "default",
+    "completed": "FAILED",
+    "time_minutes": null,
+    "tokens": null,
+    "quality_score": 0,
+    "quality_breakdown": {
+      "base_score": 0,
+      "bonus": {
+        "functionality": 0.0,
+        "code_quality": 0.0,
+        "performance": 0.0,
+        "total": 0.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": 0.0
+      },
+      "calculation": "0 + 0.0 - 0.0 = 0",
+      "final_score": 0,
+      "reasoning": "基础分0(FAILED-无法成功), 完全失败无加分"
+    },
+    "notes": "无法成功",
+    "detailed_comments": "无法成功。不再测试了。",
+    "issues": [
+      "无法成功"
+    ],
+    "metadata": {
+      "test_date": "2025-10-03",
+      "zig_version": "0.15.1",
+      "verified": true
+    }
+  },
+  {
+    "test_dir": "Supernova-roo",
+    "engine": "Supernova",
+    "client": "Roo Code",
+    "config": "default",
+    "completed": "FAILED",
+    "time_minutes": null,
+    "tokens": null,
+    "quality_score": 0,
+    "quality_breakdown": {
+      "base_score": 0,
+      "bonus": {
+        "functionality": 0.0,
+        "code_quality": 0.0,
+        "performance": 0.0,
+        "total": 0.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": 0.0
+      },
+      "calculation": "0 + 0.0 - 0.0 = 0",
+      "final_score": 0,
+      "reasoning": "基础分0(FAILED-无法成功), 完全失败无加分"
+    },
+    "notes": "无法成功",
+    "detailed_comments": "无法成功。不再测试了。",
+    "issues": [
+      "无法成功"
+    ],
+    "metadata": {
+      "test_date": "2025-10-03",
+      "zig_version": "0.15.1",
+      "verified": true
+    }
+  },
+  {
+    "test_dir": "glm4.6-dorid",
+    "engine": "GLM-4.6",
+    "client": "Factory Droid",
+    "config": "4.6",
+    "completed": "FAILED",
+    "time_minutes": 90,
+    "tokens": 3800000,
+    "quality_score": 0,
+    "quality_breakdown": {
+      "base_score": 0,
+      "bonus": {
+        "functionality": 0.0,
+        "code_quality": 0.0,
+        "performance": 0.0,
+        "total": 0.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": 0.0
+      },
+      "calculation": "0 + 0.0 - 0.0 = 0",
+      "final_score": 0,
+      "reasoning": "基础分0(FAILED), 完全失败无加分，浪费了3.8M tokens和1.5小时"
+    },
+    "notes": "完全失败",
+    "detailed_comments": "失败。用了3.8M token，用时1个半小时。没有实现出来，文件编辑和编译经常出错。",
+    "issues": [
+      "无法完成",
+      "编辑和编译频繁出错",
+      "浪费3.8M tokens"
+    ],
+    "metadata": {
+      "test_date": "2025-10-25",
+      "zig_version": "0.15.1",
+      "verified": true,
+      "wall_time_minutes": 90,
+      "tokens_wasted": 3800000
+    }
+  },
+  {
+    "test_dir": "gpt5_minimal-codex",
+    "engine": "GPT-5 (minimal)",
+    "client": "Codex CLI",
+    "config": "minimal",
+    "completed": "FAILED",
+    "time_minutes": 4.85,
+    "tokens": 54283,
+    "quality_score": 0,
+    "quality_breakdown": {
+      "base_score": 0,
+      "bonus": {
+        "functionality": 0.0,
+        "code_quality": 0.0,
+        "performance": 0.0,
+        "total": 0.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": 0.0
+      },
+      "calculation": "0 + 0.0 - 0.0 = 0",
+      "final_score": 0,
+      "reasoning": "基础分0(FAILED-基本不可用), 完全失败无加分"
+    },
+    "notes": "基本不可用",
+    "detailed_comments": "基本不可用。用时4.85分钟，token用量54,283。虽然快速完成但功能不可用。minimal配置不足以完成任务。",
+    "issues": [
+      "功能不可用",
+      "minimal配置过低"
+    ],
+    "metadata": {
+      "test_date": "2025-10-02",
+      "zig_version": "0.15.1",
+      "verified": true
+    }
+  },
+  {
+    "test_dir": "kat-claudecode",
+    "engine": "Kat",
+    "client": "ClaudeCode",
+    "config": "kat",
+    "completed": "FAILED",
+    "time_minutes": null,
+    "tokens": null,
+    "quality_score": 0,
+    "quality_breakdown": {
+      "base_score": 0,
+      "bonus": {
+        "functionality": 0.0,
+        "code_quality": 0.0,
+        "performance": 0.0,
+        "total": 0.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": 0.0
+      },
+      "calculation": "0 + 0.0 - 0.0 = 0",
+      "final_score": 0,
+      "reasoning": "基础分0(FAILED-无法完成), 完全失败无加分"
+    },
+    "notes": "无法完成",
+    "detailed_comments": "无法完成。自己看代码吧 很扯淡的。",
+    "issues": [
+      "无法完成",
+      "代码很扯淡"
+    ],
+    "metadata": {
+      "test_date": "2025-10-25",
+      "zig_version": "0.15.1",
+      "verified": true
+    }
+  },
+  {
+    "test_dir": "kat-droid",
+    "engine": "Kat",
+    "client": "Factory Droid",
+    "config": "kat",
+    "completed": "FAILED",
+    "time_minutes": null,
+    "tokens": null,
+    "quality_score": 0,
+    "quality_breakdown": {
+      "base_score": 0,
+      "bonus": {
+        "functionality": 0.0,
+        "code_quality": 0.0,
+        "performance": 0.0,
+        "total": 0.0
+      },
+      "penalty": {
+        "bugs": 0.0,
+        "workaround": 0.0,
+        "efficiency": 0.0,
+        "total": 0.0
+      },
+      "calculation": "0 + 0.0 - 0.0 = 0",
+      "final_score": 0,
+      "reasoning": "基础分0(FAILED-无法完成), 完全失败无加分"
+    },
+    "notes": "无法完成",
+    "detailed_comments": "无法完成。自己看代码吧 很扯淡的。",
+    "issues": [
+      "无法完成",
+      "代码很扯淡"
+    ],
+    "metadata": {
+      "test_date": "2025-10-25",
+      "zig_version": "0.15.1",
+      "verified": true
+    }
+  }
+]

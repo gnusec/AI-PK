@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-PK 测试结果录入表单</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Monaco', 'Consolas', monospace;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(26, 26, 46, 0.95);
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+        }
+        
+        h1 {
+            color: #00ff41;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #00f5ff;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #00f5ff;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff41;
+            border-radius: 5px;
+            color: #e0e0e0;
+            font-family: inherit;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #00f5ff;
+            box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .radio-option input[type="radio"] {
+            width: auto;
+        }
+        
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 1em;
+            font-weight: bold;
+            border: 2px solid #00ff41;
+            background: linear-gradient(135deg, rgba(0, 255, 65, 0.2), rgba(0, 245, 255, 0.2));
+            color: #00ff41;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        button:hover {
+            background: rgba(0, 255, 65, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .output-area {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00f5ff;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .output-area h3 {
+            color: #00f5ff;
+            margin-bottom: 10px;
+        }
+        
+        pre {
+            background: #000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            color: #00ff41;
+            font-size: 0.9em;
+        }
+        
+        .hint {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 3px;
+        }
+        
+        .required {
+            color: #ff006e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 AI-PK 测试结果录入</h1>
+        <p class="subtitle">ZigScan Benchmark - Structured Result Entry Form</p>
+        
+        <form id="resultForm">
+            <!-- 测试基本信息 -->
+            <div class="form-group">
+                <label for="testDir">测试目录名 <span class="required">*</span></label>
+                <input type="text" id="testDir" name="testDir" required 
+                       placeholder="例如: gpt5-codex-low">
+                <div class="hint">格式: 引擎-客户端-配置 (如: gpt5-codex-low, sonnet4.5-dorid)</div>
+            </div>
+            
+            <!-- 完成状态 -->
+            <div class="form-group">
+                <label>完成状态 <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="statusSuccess" name="status" value="success" required>
+                        <label for="statusSuccess" style="display: inline; margin: 0;">✅ 成功 (完全可用)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="statusPartial" name="status" value="partial">
+                        <label for="statusPartial" style="display: inline; margin: 0;">⚠️ 部分成功 (有bug)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="statusFailed" name="status" value="failed">
+                        <label for="statusFailed" style="display: inline; margin: 0;">❌ 失败 (无法完成)</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 时间消耗 -->
+            <div class="form-group">
+                <label for="timeMinutes">完成时间 (分钟)</label>
+                <input type="number" id="timeMinutes" name="timeMinutes" step="0.1" min="0" 
+                       placeholder="例如: 16.6">
+                <div class="hint">从开始到最终可用版本的时间</div>
+            </div>
+            
+            <!-- Token消耗 -->
+            <div class="form-group">
+                <label for="tokens">Token消耗</label>
+                <input type="number" id="tokens" name="tokens" step="1" min="0" 
+                       placeholder="例如: 227870">
+                <div class="hint">总token消耗（包括input/output）</div>
+            </div>
+            
+            <!-- 质量评分 -->
+            <div class="form-group">
+                <label for="qualityScore">质量评分 (0-10) <span class="required">*</span></label>
+                <input type="number" id="qualityScore" name="qualityScore" 
+                       min="0" max="10" step="1" value="5" required>
+                <div class="hint">0=完全失败, 5=部分可用, 8=完全成功, 10=完美</div>
+            </div>
+            
+            <!-- 评价备注 -->
+            <div class="form-group">
+                <label for="notes">简短备注</label>
+                <input type="text" id="notes" name="notes" 
+                       placeholder="例如: 大部分可用, 并发控制无效">
+                <div class="hint">一句话概括主要问题或特点</div>
+            </div>
+            
+            <!-- 详细评价 -->
+            <div class="form-group">
+                <label for="comments">详细评价 (可选)</label>
+                <textarea id="comments" name="comments" 
+                          placeholder="记录关键问题、解决方案、特殊情况等..."></textarea>
+            </div>
+            
+            <!-- 按钮组 -->
+            <div class="btn-group">
+                <button type="submit">生成 JSON</button>
+                <button type="button" onclick="generateShellFormat()">生成 Shell 格式</button>
+                <button type="reset" onclick="clearOutput()">清空表单</button>
+            </div>
+        </form>
+        
+        <!-- 输出区域 -->
+        <div class="output-area" id="outputArea">
+            <h3>生成的结果：</h3>
+            <pre id="outputContent"></pre>
+            <button type="button" onclick="copyToClipboard()">复制到剪贴板</button>
+        </div>
+    </div>
+    
+    <script>
+        const form = document.getElementById('resultForm');
+        const outputArea = document.getElementById('outputArea');
+        const outputContent = document.getElementById('outputContent');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            generateJSON();
+        });
+        
+        function parseDirectoryName(dirname) {
+            const parts = dirname.split('-');
+            let engine = 'Unknown';
+            let client = 'Default';
+            
+            if (parts.length > 0) {
+                const first = parts[0].toLowerCase();
+                if (first.includes('gpt5') || first.includes('gpt4')) {
+                    engine = first.includes('gpt5') ? 'GPT-5' : 'GPT-4';
+                } else if (first.includes('sonnet')) {
+                    engine = 'Claude Sonnet';
+                } else if (first.includes('opus')) {
+                    engine = 'Claude Opus';
+                } else if (first.includes('glm')) {
+                    engine = 'GLM-4';
+                } else if (first.includes('qwen')) {
+                    engine = 'Qwen';
+                } else if (first.includes('grok')) {
+                    engine = 'Grok';
+                } else if (first.includes('supernova')) {
+                    engine = 'Supernova';
+                } else if (first.includes('kat')) {
+                    engine = 'Kat';
+                } else if (first.includes('claude')) {
+                    engine = 'Claude';
+                } else {
+                    engine = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+                }
+                
+                if (parts.length > 1) {
+                    client = parts.slice(1).map(p => 
+                        p.charAt(0).toUpperCase() + p.slice(1)
+                    ).join('-');
+                }
+            }
+            
+            return { engine, client };
+        }
+        
+        function getStatusText(status) {
+            switch(status) {
+                case 'success': return '✅ SUCCESS';
+                case 'partial': return '⚠️ PARTIAL';
+                case 'failed': return '❌ FAILED';
+                default: return '❓ UNCLEAR';
+            }
+        }
+        
+        function generateJSON() {
+            const formData = new FormData(form);
+            const dirname = formData.get('testDir');
+            const { engine, client } = parseDirectoryName(dirname);
+            
+            const result = {
+                test_dir: dirname,
+                engine: engine,
+                client: client,
+                completed: getStatusText(formData.get('status')),
+                time_minutes: formData.get('timeMinutes') ? parseFloat(formData.get('timeMinutes')) : null,
+                tokens: formData.get('tokens') ? parseInt(formData.get('tokens')) : null,
+                notes: formData.get('notes') || "",
+                user_comments: formData.get('comments') ? 
+                    formData.get('comments').split('\n').filter(c => c.trim()) : [],
+                quality_score: parseInt(formData.get('qualityScore'))
+            };
+            
+            outputContent.textContent = JSON.stringify(result, null, 2);
+            outputArea.style.display = 'block';
+        }
+        
+        function generateShellFormat() {
+            const formData = new FormData(form);
+            const dirname = formData.get('testDir');
+            const status = getStatusText(formData.get('status'));
+            const time = formData.get('timeMinutes') || 'N/A';
+            const tokens = formData.get('tokens') || 'N/A';
+            const notes = formData.get('notes') || '';
+            const comments = formData.get('comments') || '';
+            
+            let shellContent = `# ===== ${dirname} =====\n`;
+            shellContent += `状态: ${status}\n`;
+            shellContent += `时间: ${time} 分钟\n`;
+            shellContent += `Tokens: ${tokens}\n`;
+            shellContent += `质量: ${formData.get('qualityScore')}/10\n`;
+            if (notes) shellContent += `备注: ${notes}\n`;
+            if (comments) {
+                shellContent += `\n详细评价:\n${comments}\n`;
+            }
+            shellContent += `\n# finish.log 内容建议:\n`;
+            shellContent += `cat > benchmarks/zigscan/${dirname}/finish.log << 'EOF'\n`;
+            if (time !== 'N/A') shellContent += `用时: ${time}分钟\n`;
+            if (tokens !== 'N/A') shellContent += `Tokens: ${tokens}\n`;
+            shellContent += `\n${status === '✅ SUCCESS' ? '任务完成，功能正常' : notes}\n`;
+            if (comments) shellContent += `\n${comments}\n`;
+            shellContent += `EOF\n`;
+            
+            outputContent.textContent = shellContent;
+            outputArea.style.display = 'block';
+        }
+        
+        function clearOutput() {
+            outputArea.style.display = 'none';
+            outputContent.textContent = '';
+        }
+        
+        function copyToClipboard() {
+            navigator.clipboard.writeText(outputContent.textContent).then(() => {
+                alert('已复制到剪贴板！');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+
+
+
+
+Session Token Usage
+
+   Raw Token Usage in this session:
+   - Input: 266.7K tokens
+   - Cache Creation: 0 tokens
+   - Cache Read: 8.7M tokens
+   - Output: 38.6K tokens
+
+   Factory Token Usage (approximate):
+   724.8K tokens
+
+   The actual usage can be found at https://app.factory.ai/settings/billing.
+
+
+
+
+-------------------------------
+成功
+SUCCESS
+
+30分钟完成，完成度很高
+没问题
+
+
+
+----------------------------
+
+ $zig-out/bin/zigscan 
+zigscan - high-concurrency TCP port scanner (Zig 0.15.1)
+n+        \\Usage:
+  zig build run -- [options] --target <ip|cidr> [--ports spec]
+Options:
+  -h, --help                 Show help
+  -t, --target STR           Target IP/CIDR (e.g. 1.2.3.4 or 10.0.0.0/24)
+  -f, --ip-file PATH         File of targets (one per line)
+  -p, --ports SPEC           Ports list, e.g. "80,443,1-1024"
+      --nmap-top             Use built-in nmap top 1000 ports
+  -c, --concurrency N        Max concurrent connects (default 500)
+      --timeout-ms N         Per-connection timeout in ms (default 300)
+      --deadline-ms N        Overall deadline in ms (optional)
+      --format text|json     Output format (default text)
+      --no-progress          Disable progress output
+Notes: uses non-blocking connect + poll with per-connection timeout to avoid Linux ~75s TCP connect default timeout.
+┌─[winger@parrot]─[~/code/zig/zigscan/gpt5-hight-dorid]
+└──╼ $
+
+
+$time zig-out/bin/zigscan  -t 103.235.46.115 --ports 80-500 -c 20 --timeout-ms 200 --deadline-ms 20000 --format json
+421/421 in-flight:0 opens:2 timeouts:419       
+{"scanned":421,"open":[443,80],"timeouts":419,"errors":0,"elapsed_ms":4259}
+
+real	0m4.264s
+user	0m0.035s
+sys	0m0.034s
+

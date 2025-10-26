@@ -1,0 +1,100 @@
+real	48m51.756s
+user	1m26.504s
+sys	0m38.454s
+
+
+[2025-10-02T05:22:50] tokens used: 487,794
+
+------
+总结：这个token不老少
+还是low的情况下
+
+大部分可用
+而且他没给我总结文档，这是特殊之处
+
+-------------
+──╼ $zig-out/bin/gpt5_codex_low   --help
+Usage: zig build run -- [options] <target> [<target> ...]
+
+Options:
+  -h, --help              Show this help
+  -t, --targets VALUE     Add a target (repeatable)
+  -p, --ports VALUE       Comma/range port spec (e.g. 80,443,1000-2000)
+  -r, --range VALUE       Add a port range (alias)
+      --ip-file PATH      Load targets from file (one per line)
+  -c, --concurrency N     Concurrent connections (default 500, max 16384)
+      --timeout MS        Connection timeout in milliseconds (default 1000)
+  -f, --format FORMAT     Output format: human, json, txt (default human)
+  -o, --output PATH       Write output to file
+      --no-progress       Disable progress output
+Targets may be IPv4/IPv6, hostnames, IPv4 CIDR (e.g. 192.168.0.0/24) or ranges (e.g. 10.0.0.1-10.0.0.254).
+┌─[winger@parrot]─[~/code/zig/zigscan/gpt5-codex-low]
+└──╼ $zig-out/bin/gpt5_codex_low  -p 1-65535   -t   127.0.0.1
+[127.0.0.1 -> 127.0.0.1] 65535/65535 ports scanned
+=== Port Scan Summary ===
+Targets: 1
+Addresses: 1
+Ports per target: 65535
+Total attempts: 65535
+Open ports: 27
+Duration: 151970578 ns
+
+Target 127.0.0.1:
+  127.0.0.1: { 80, 2233, 3456, 7071, 7890, 7895, 7898, 7899, 9097, 9121, 11434, 11435, 24282, 32927, 33331, 34029, 36727, 38505, 49357, 49503, 51000, 51001, 51002, 51005, 51006, 51007, 59271 }
+
+┌─[winger@parrot]─[~/code/zig/zigscan/gpt5-codex-low]
+└──╼ $zig-out/bin/gpt5_codex_low  -p 1-65535   -t   127.0.0.1 -f json
+{
+  "targets": [
+    {
+      "target": "127.0.0.1",
+      "addresses": [
+        {
+          "address": "127.0.0.1",
+          "open_ports": [80, 2233, 3456, 7071, 7890, 7895, 7898, 7899, 9097, 9121, 11434, 11435, 24282, 32927, 33331, 34029, 36727, 38505, 49357, 49503, 51000, 51001, 51002, 51005, 51006, 51007, 59271]
+        }
+      ]
+    }
+  ],
+  "total_attempts": 65535,
+  "total_open_ports": 27,
+  "duration_ns": 151416961
+}
+┌─[winger@parrot]─[~/code/zig/zigscan/gpt5-codex-low]
+└──╼ $zig-out/bin/gpt5_codex_low  -p 1-65535   -t   127.0.0.1 -f human
+[127.0.0.1 -> 127.0.0.1] 65535/65535 ports scanned
+=== Port Scan Summary ===
+Targets: 1
+Addresses: 1
+Ports per target: 65535
+Total attempts: 65535
+Open ports: 28
+Duration: 153668643 ns
+
+Target 127.0.0.1:
+  127.0.0.1: { 80, 2233, 3456, 7071, 7890, 7895, 7898, 7899, 9097, 9121, 11434, 11435, 24282, 32927, 33331, 34029, 36727, 38505, 49357, 49503, 51000, 51001, 51002, 51005, 51006, 51007, 51388, 59271 }
+
+┌─[winger@parrot]─[~/code/zig/zigscan/gpt5-codex-low]
+└──╼ $zig-out/bin/gpt5_codex_low  -c 10  -p 1-65535   -t   127.0.0.1 -f human
+[127.0.0.1 -> 127.0.0.1] 65535/65535 ports scanned
+=== Port Scan Summary ===
+Targets: 1
+Addresses: 1
+Ports per target: 65535
+Total attempts: 65535
+Open ports: 28
+Duration: 153109790 ns
+
+Target 127.0.0.1:
+  127.0.0.1: { 80, 2233, 3456, 7071, 7890, 7895, 7898, 7899, 9097, 9121, 11434, 11435, 24282, 32927, 33331, 34029, 36727, 38505, 49357, 49503, 51000, 51001, 51002, 51005, 51006, 51007, 53760, 59271 }
+
+┌─[winger@parrot]─[~/code/zig/zigscan/gpt5-codex-low]
+└──╼ $zig-out/bin/gpt5_codex_low  -c 10  -p 1-65535   -t   127.0.0.1 -f txt
+127.0.0.1,127.0.0.1,80
+127.0.0.1,127.0.0.1,2233
+127.0.0.1,127.0.0.1,3456
+127.0.0.1,127.0.0.1,7071
+127.0.0.1,127.0.0.1,7890
+127.0.0.1,127.0.0.1,7895
+
+

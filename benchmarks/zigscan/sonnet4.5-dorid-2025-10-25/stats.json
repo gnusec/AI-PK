@@ -1,0 +1,41 @@
+{
+  "test_dir": "sonnet4.5-dorid-2025-10-25",
+  "engine": "Claude Sonnet 4.5",
+  "client": "Factory Droid",
+  "config": "2025-10-25",
+  "completed": "SUCCESS",
+  "time_minutes": 15,
+  "tokens": 172500,
+  "quality_score": 10,
+  "quality_breakdown": {
+    "base_score": 8,
+    "bonus": {
+      "functionality": 1.0,
+      "code_quality": 1.0,
+      "performance": 1.0,
+      "total": 3.0
+    },
+    "penalty": {
+      "bugs": 0.0,
+      "workaround": 0.0,
+      "efficiency": 0.0,
+      "total": 0.0
+    },
+    "calculation": "8 + 3.0 - 0.0 = 11",
+    "final_score": 10,
+    "reasoning": "基础分8(SUCCESS), 功能完整+1.0, 代码质量高+1.0, 性能优秀(5秒)+1.0, 无扣分, 上限10 = 满分10。时间短(15分钟)且token极少(172.5K)，比同期sonnet4.5版本(772.8K)节省4.5倍。"
+  },
+  "notes": "成功，非常流畅",
+  "detailed_comments": "成功。用时15分钟，Factory Token Usage 172.5K。非常流畅，token不多。功能完全可用，性能测试5秒完成500端口扫描。相比2025-10-10版本，时间更短且token节省4.5倍。",
+  "issues": [],
+  "metadata": {
+    "test_date": "2025-10-18",
+    "zig_version": "0.15.1",
+    "verified": true,
+    "performance_test": "500 ports in 5s",
+    "factory_token_usage": 172500,
+    "raw_input_tokens": 68700,
+    "cache_read": 220800,
+    "output_tokens": 10600
+  }
+}

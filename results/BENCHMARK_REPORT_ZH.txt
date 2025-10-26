@@ -1,0 +1,55 @@
+
+╔═══════════════════════════════════════════════════════════════╗
+║                              AI-PK ZIGSCAN 基准测试报告                      ║
+╚═══════════════════════════════════════════════════════════════╝
+
+Total Tests: 20
+✅ SUCCESS: 7 (35%)
+⚠️  PARTIAL: 6 (30%)
+❌ FAILED:  7 (35%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                            性能排行榜                             
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ 1. [10/10] ██████████ Claude Sonnet 4.5 + Factory Droid
+    Status: SUCCESS   Time: 15.0min     Tokens: 172K      
+    Notes: 成功，非常流畅
+
+ 2. [ 9/10] █████████░ GPT-5 (hight) + Factory Droid
+    Status: SUCCESS   Time: 30.0min     Tokens: 724K      
+    Notes: 完成度很高
+
+ 3. [ 9/10] █████████░ Claude Opus 4.1 + Factory Droid
+    Status: SUCCESS   Time: 18.0min     Tokens: 3700K     
+    Notes: 成功，目前最快的
+
+ 4. [ 9/10] █████████░ Claude Sonnet 4.5 + Factory Droid
+    Status: SUCCESS   Time: 24.0min     Tokens: 772K      
+    Notes: 成功
+
+ 5. [ 8/10] ████████░░ GPT-5 (codex_medium) + Codex CLI
+    Status: SUCCESS   Time: 59.0min     Tokens: 483K      
+    Notes: 成功完成
+
+ 6. [ 7/10] ███████░░░ Grok + Roo Code
+    Status: SUCCESS   Time: 300.0min    Tokens: N/A       
+    Notes: 可以用
+
+ 7. [ 6/10] ██████░░░░ Qwen + Qwen-CLI
+    Status: SUCCESS   Time: 159.0min    Tokens: 75400K    
+    Notes: 成功，全自动化，国产agent扛把子
+
+ 8. [ 6/10] ██████░░░░ GLM-4.6 + ClaudeCode
+    Status: PARTIAL   Time: 156.0min    Tokens: 5863K     
+    Notes: 总体可用，投机使用ncat
+
+ 9. [ 6/10] ██████░░░░ GPT-5 (codex_low) + Codex CLI
+    Status: PARTIAL   Time: 48.9min     Tokens: 487K      
+    Notes: 大部分可用
+
+10. [ 6/10] ██████░░░░ GPT-5 (hight) + Codex CLI
+    Status: PARTIAL   Time: 20.4min     Tokens: 151K      
+    Notes: 大部分可用
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

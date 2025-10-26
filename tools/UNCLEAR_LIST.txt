@@ -1,0 +1,69 @@
+需要人工确认的finish.log路径
+================================================================================
+
+以下测试结果标记为 ❓UNCLEAR 或有时间异常，需要你人工确认并补充finish.log：
+
+1. opus4.1-dorid (❓UNCLEAR)
+   路径: /home/winger/code/zig/ai-pk/benchmarks/zigscan/opus4.1-dorid/finish.log
+   
+   当前内容: "功能完全可用，18分钟，最快"
+   问题: 时间记录异常（仅0.07分钟），可能是Factory Droid的缓存时间
+   建议: 补充实际开发时间（18分钟）和明确的成功标记
+
+2. gpt5-codex-medium (❓UNCLEAR)
+   路径: /home/winger/code/zig/ai-pk/benchmarks/zigscan/gpt5-codex-medium/finish.log
+   
+   当前状态: 59分钟，483K tokens，但无明确评价
+   问题: 缺少"可用"/"失败"等明确状态
+   建议: 补充最终是否可用、有哪些问题
+
+3. qwen (❓UNCLEAR)
+   路径: /home/winger/code/zig/ai-pk/benchmarks/zigscan/qwen/finish.log
+   
+   当前内容: "总体评价，可用，就是时间长了点"
+   问题: 既说"可用"又说"有bug无限循环"，状态模糊
+   建议: 明确是"部分可用"还是"完全可用"
+
+4. grok-code-fast-1-kilo (❓UNCLEAR)
+   路径: /home/winger/code/zig/ai-pk/benchmarks/zigscan/grok-code-fast-1-kilo/finish.log
+   
+   当前内容: "基本可用，就是token 不老少"，但有integer overflow bug
+   问题: 有严重bug但说"基本可用"
+   建议: 明确是"部分可用"（有严重bug）
+
+5. sonnet4.5 (❓UNCLEAR)
+   路径: /home/winger/code/zig/ai-pk/benchmarks/zigscan/sonnet4.5/finish.log
+   
+   当前内容: "非常流程 token 不多"，15分钟
+   问题: 缺少完成状态、功能验证结果
+   建议: 补充是否成功完成、功能是否正常
+
+6. gpt5-hight-dorid (⚠️ 时间异常)
+   路径: /home/winger/code/zig/ai-pk/benchmarks/zigscan/gpt5-hight-dorid/finish.log
+   
+   当前内容: "30分钟完成，完成度很高，没问题"
+   问题: 实际记录时间仅0.07分钟（Factory Droid缓存时间）
+   建议: 在finish.log中明确标注真实开发时间30分钟
+
+================================================================================
+
+建议的finish.log标准格式：
+
+===== 标准格式 =====
+用时: XX分钟
+Tokens: XXXXX
+
+完成状态: [任务完成，功能正常 / 大部分可用 / 失败]
+
+关键问题:
+- 问题1
+- 问题2
+
+最终评价: ...
+===================
+
+================================================================================
+
+使用HTML表单工具：
+打开: file:///home/winger/code/zig/ai-pk/tools/result_form.html
+或: xdg-open /home/winger/code/zig/ai-pk/tools/result_form.html

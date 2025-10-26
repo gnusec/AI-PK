@@ -1,0 +1,48 @@
+{
+  "test_dir": "qwen-qwen-cli",
+  "engine": "Qwen",
+  "client": "Qwen-CLI",
+  "config": "coder-model",
+  "completed": "SUCCESS",
+  "time_minutes": 159,
+  "tokens": 75400000,
+  "quality_score": 6,
+  "quality_breakdown": {
+    "base_score": 8,
+    "bonus": {
+      "functionality": 1.0,
+      "code_quality": 0.5,
+      "performance": 0.5,
+      "total": 2.0
+    },
+    "penalty": {
+      "bugs": 0.0,
+      "workaround": 0.0,
+      "efficiency": -1.0,
+      "total": -1.0
+    },
+    "calculation": "8 + 2.0 - 1.0 = 9",
+    "final_score": 6,
+    "reasoning": "基础分8(SUCCESS), 功能完整+1.0, 代码规范+0.5, 性能合格+0.5, token极度浪费(75.4M)-1.0, 调整为6"
+  },
+  "notes": "成功，全自动化，国产agent扛把子",
+  "detailed_comments": "成功。API时长2h39m，实际时长12h45m（全自动化不需人工干预）。Token用量极大75.4M input。功能正常可用。qwen-cli无可厚非国产agent里头抗靶子了，每天2000次免费call。最后总结时可能有无限循环输出，但程序本身没问题。",
+  "issues": [
+    "token消耗极大(75.4M)",
+    "实际时长极长(12.75小时)",
+    "最后总结可能无限循环输出"
+  ],
+  "metadata": {
+    "test_date": "2025-10-25",
+    "zig_version": "0.15.1",
+    "verified": true,
+    "wall_time_minutes": 765,
+    "api_time_minutes": 159,
+    "tool_calls": 316,
+    "success_rate": "91.8%",
+    "input_tokens": 75395870,
+    "output_tokens": 111484,
+    "cache_tokens": 72708603,
+    "cache_rate": "96.4%"
+  }
+}

@@ -1,0 +1,30 @@
+17:33 build.zig
+19:05 zig-out/bin/zigscan
+1:30 
+
+------
+可以用
+SUCCESS
+
+token没少用
+具体忘记统计了
+
+-------
+zig-out/bin/zigscan  -h
+Usage: zigscan [options] <target_ip>
+
+Options:
+  --ports <start-end>      Port range to scan (default: 1-1024)
+  --timeout <seconds>      Timeout per connection attempt (default: 5)
+  --max-concurrent <num>   Maximum concurrent connections (default: 100)
+  --json                   Output results in JSON format
+  --help, -h               Show this help message
+┌─[winger@parrot]─[~/code/zig/zigscan/grok-code-fast-1-roo]
+└──╼ $zig-out/bin/zigscan  --ports 80-555 --timeout 1 --max-concurrent 150 --json 103.235.46.115 
+Starting port scan on 103.235.46.115 (476 ports)
+Timeout: 1000ms, Max concurrent: 150
+Scan completed in 5011ms
+Results: 2 open, 0 closed, 474 filtered
+Open ports: 80, 443
+
+

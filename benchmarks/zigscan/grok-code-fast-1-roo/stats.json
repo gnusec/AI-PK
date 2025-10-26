@@ -1,0 +1,39 @@
+{
+  "test_dir": "grok-code-fast-1-roo",
+  "engine": "Grok",
+  "client": "Roo Code",
+  "config": "code-fast-1",
+  "completed": "SUCCESS",
+  "time_minutes": 300,
+  "tokens": null,
+  "quality_score": 7,
+  "quality_breakdown": {
+    "base_score": 8,
+    "bonus": {
+      "functionality": 1.0,
+      "code_quality": 0.5,
+      "performance": 0.5,
+      "total": 2.0
+    },
+    "penalty": {
+      "bugs": 0.0,
+      "workaround": 0.0,
+      "efficiency": -1.0,
+      "total": -1.0
+    },
+    "calculation": "8 + 2.0 - 1.0 = 9",
+    "final_score": 7,
+    "reasoning": "基础分8(SUCCESS), 功能完整+1.0, 代码规范+0.5, 性能合格+0.5, 开发时间极长(5小时)-1.0, 调整为7"
+  },
+  "notes": "可以用",
+  "detailed_comments": "可以用。断断续续5个小时完成，token用量未统计但提到'不老少'。功能正常可用。476端口扫描约5秒完成。",
+  "issues": [
+    "开发时间极长(5小时)",
+    "token用量未统计"
+  ],
+  "metadata": {
+    "test_date": "2025-10-25",
+    "zig_version": "0.15.1",
+    "verified": true
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "test_dir": "gpt5_minimal-codex",
+  "engine": "GPT-5 (minimal)",
+  "client": "Codex CLI",
+  "config": "minimal",
+  "completed": "FAILED",
+  "time_minutes": 4.85,
+  "tokens": 54283,
+  "quality_score": 0,
+  "quality_breakdown": {
+    "base_score": 0,
+    "bonus": {
+      "functionality": 0.0,
+      "code_quality": 0.0,
+      "performance": 0.0,
+      "total": 0.0
+    },
+    "penalty": {
+      "bugs": 0.0,
+      "workaround": 0.0,
+      "efficiency": 0.0,
+      "total": 0.0
+    },
+    "calculation": "0 + 0.0 - 0.0 = 0",
+    "final_score": 0,
+    "reasoning": "基础分0(FAILED-基本不可用), 完全失败无加分"
+  },
+  "notes": "基本不可用",
+  "detailed_comments": "基本不可用。用时4.85分钟，token用量54,283。虽然快速完成但功能不可用。minimal配置不足以完成任务。",
+  "issues": [
+    "功能不可用",
+    "minimal配置过低"
+  ],
+  "metadata": {
+    "test_date": "2025-10-02",
+    "zig_version": "0.15.1",
+    "verified": true
+  }
+}

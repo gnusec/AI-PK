@@ -1,0 +1,41 @@
+└──╼ $cat end
+2025年 10月 18日 星期六 22:40:50 CST
+┌─[winger@parrot]─[~/code/zig/zigscan/sonnet4.5]
+└──╼ $cat start
+2025年 10月 18日 星期六 22:25:28 CST
+
+
+Session Token Usage
+
+   Raw Token Usage in this session:
+   - Input: 68.7K tokens
+   - Cache Creation: 0 tokens
+   - Cache Read: 220.8K tokens
+   - Output: 10.6K tokens
+
+   Factory Token Usage (approximate):
+   172.5K tokens
+
+
+
+----------
+成功
+SUCCESS
+用时15分钟
+
+非常流程 token 不多   172.5K tokens
+------------
+└──╼ $time ./scanner  -t 103.235.46.115 -p 1-500 -c 100 
+Scanning 103.235.46.115 ports 80-500 with concurrency 100
+Scan time: 5009 ms
+
+Open ports for 103.235.46.115:
+  80
+
+Scan completed in 5009 ms
+Total ports scanned: 500
+
+real	0m5.011s
+user	0m0.000s
+sys	0m0.013s
+

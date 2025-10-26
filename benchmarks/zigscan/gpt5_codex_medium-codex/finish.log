@@ -1,0 +1,54 @@
+real	59m2.611s
+user	0m42.196s
+sys	0m19.156s
+
+[2025-10-02T10:34:15] tokens used: 483,913
+-----------
+成功
+SUCCESS
+
+token 用量 483K
+
+----------
+$zig-out/bin/zigscan -T 103.235.46.115 -r 1-500 -c 100
+Progress 500/500 | open 2 | closed 0 | timeout 498 | errors 0
+Scan summary:
+  Targets: 1
+  Ports per target: approx 500
+  Duration: 2020.31 ms
+  Open: 2
+  Closed: 0
+  Timeouts: 498
+  Errors: 0
+
+Open ports:
+  103.235.46.115:
+    103.235.46.115:80:80 (59.71 ms)
+    103.235.46.115:443:443 (78.89 ms)
+
+
+-----------
+
+[2025-10-02T10:34:15] tokens used: 483,913
+
+[2025-10-02T10:34:20] thinking
+
+**Summarizing changes and tests**
+[2025-10-02T10:34:21] codex
+
+**Summary**
+- Implemented a full-featured concurrent TCP port scanner in `src/main.zig` with CLI options (targets, CIDR expansion, port lists/ranges, concurrency, timeout, format selection, JSON output, target file loading, etc.).
+- Added robust connection handling with non-blocking sockets, poll-based timeouts, progress tracking, statistics collection, and resolution failure reporting.
+- Produced human-readable and JSON outputs with streaming JSON writer and proper string escaping.
+- Updated build configuration in `build.zig` for Zig 0.15 module API.
+
+**Testing**
+- `zig build`
+- `zig build test`
+- `./zig-out/bin/zigscan --help`
+- `./zig-out/bin/zigscan --target 127.0.0.1 --ports 80 --timeout 50`
+- `./zig-out/bin/zigscan --target 127.0.0.1 --ports 80 --timeout 50 --format json`
+
+Let me know if you’d like additional scenarios exercised or further refinements.
+[2025-10-02T10:34:25] tokens used: 484,419
+[

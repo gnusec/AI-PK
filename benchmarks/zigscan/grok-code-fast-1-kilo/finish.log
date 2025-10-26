@@ -1,0 +1,169 @@
+
+
+上下文长度
+133.2k
+256.0k
+
+Token 用量
+16.8m
+40.1k
+
+缓存
+13.0m
+
+用时至少3个小时
+
+----------
+成功
+PARTIAL
+
+结论
+基本可用
+有部分BUG
+
+就是token 不老少
+重启过一次任务
+还有kilo这个命令自动化模式比较繁琐，每次新命令要手工点击授权学习。
+没有其他agent那种yolo或者solo模式
+
+-----------
+─╼ $./zigscan  -p 1-500 --threads 100 --format json  103.235.46.115
+Unknown option: --format
+ZigScan - High Performance Port Scanner
+
+USAGE:
+  zigscan [OPTIONS] <target>
+
+OPTIONS:
+  -h, --help                    Show this help message
+  -p, --ports <ports>           Specify ports (e.g., "80,443" or "1-1000")
+  -t, --threads <num>           Number of concurrent threads (default: 50)
+  --timeout <ms>                Timeout in milliseconds (default: 1000)
+  -oJ                          Output in JSON format
+  -oN                          Output in normal text format
+  -iL <file>                   Input from list of IPs
+
+EXAMPLES:
+  zigscan 192.168.1.1
+  zigscan -p 80,443 103.235.46.115
+  zigscan -p 1-1000 --threads 1000 10.0.0.1
+┌─[✗]─[winger@parrot]─[~/code/zig/zigscan/grok-code-fast-1-kilo]
+└──╼ $./zigscan  -p 1-500 --threads 100 -oJ  103.235.46.115
+{
+  "target": "103.235.46.115",
+  "scan_time": 512,
+  "concurrency": 100,
+  "open_ports": [
+    {
+      "port": 443,
+      "state": "open",
+      "service": "https",
+      "response_time": 68
+    },
+    {
+      "port": 80,
+      "state": "open",
+      "service": "http",
+      "response_time": 64
+    }
+  ]
+}
+┌─[winger@parrot]─[~/code/zig/zigscan/grok-code-fast-1-kilo]
+└──╼ $./zigscan  -p 1-500 --threads 100^CoJ  103.235.46.115
+┌─[✗]─[winger@parrot]─[~/code/zig/zigscan/grok-code-fast-1-kilo]
+└──╼ $./zigscan 
+Error: Target IP/host is required
+ZigScan - High Performance Port Scanner
+
+USAGE:
+  zigscan [OPTIONS] <target>
+
+OPTIONS:
+  -h, --help                    Show this help message
+  -p, --ports <ports>           Specify ports (e.g., "80,443" or "1-1000")
+  -t, --threads <num>           Number of concurrent threads (default: 50)
+  --timeout <ms>                Timeout in milliseconds (default: 1000)
+  -oJ                          Output in JSON format
+  -oN                          Output in normal text format
+  -iL <file>                   Input from list of IPs
+
+EXAMPLES:
+  zigscan 192.168.1.1
+  zigscan -p 80,443 103.235.46.115
+  zigscan -p 1-1000 --threads 1000 10.0.0.1
+┌─[✗]─[winger@parrot]─[~/code/zig/zigscan/grok-code-fast-1-kilo]
+└──╼ $./zigscan  -p 1-65535  --threads 100 localhost
+thread 3245891 panic: integer overflow
+/home/winger/code/zig/zigscan/grok-code-fast-1-kilo/zigscan.zig:148:41: 0x114d94f in parsePorts (zigscan.zig)
+            while (port <= end) : (port += 1) {
+                                        ^
+/home/winger/code/zig/zigscan/grok-code-fast-1-kilo/zigscan.zig:94:27: 0x114e3a2 in parseArgs (zigscan.zig)
+            try parsePorts(allocator, ports_str, &config.ports);
+                          ^
+/home/winger/code/zig/zigscan/grok-code-fast-1-kilo/zigscan.zig:43:31: 0x1152418 in main (zigscan.zig)
+    var config = try parseArgs(allocator);
+                              ^
+/snap/zig/14937/lib/std/start.zig:627:37: 0x1154fe9 in posixCallMainAndExit (std.zig)
+            const result = root.main() catch |err| {
+                                    ^
+/snap/zig/14937/lib/std/start.zig:232:5: 0x114d331 in _start (std.zig)
+    asm volatile (switch (native_arch) {
+    ^
+???:?:?: 0x0 in ??? (???)
+已放弃
+┌─[✗]─[winger@parrot]─[~/code/zig/zigscan/grok-code-fast-1-kilo]
+└──╼ $./zigscan  -p 1-65535  --threads 100 127.0.0.1
+thread 3246104 panic: integer overflow
+/home/winger/code/zig/zigscan/grok-code-fast-1-kilo/zigscan.zig:148:41: 0x114d94f in parsePorts (zigscan.zig)
+            while (port <= end) : (port += 1) {
+                                        ^
+/home/winger/code/zig/zigscan/grok-code-fast-1-kilo/zigscan.zig:94:27: 0x114e3a2 in parseArgs (zigscan.zig)
+            try parsePorts(allocator, ports_str, &config.ports);
+                          ^
+/home/winger/code/zig/zigscan/grok-code-fast-1-kilo/zigscan.zig:43:31: 0x1152418 in main (zigscan.zig)
+    var config = try parseArgs(allocator);
+                              ^
+/snap/zig/14937/lib/std/start.zig:627:37: 0x1154fe9 in posixCallMainAndExit (std.zig)
+            const result = root.main() catch |err| {
+                                    ^
+/snap/zig/14937/lib/std/start.zig:232:5: 0x114d331 in _start (std.zig)
+    asm volatile (switch (native_arch) {
+    ^
+???:?:?: 0x0 in ??? (???)
+已放弃
+┌─[✗]─[winger@parrot]─[~/code/zig/zigscan/grok-code-fast-1-kilo]
+└──╼ $./zigscan  -p 1-65534  --threads 100 127.0.0.1
+
+Scan completed in 236ms
+Open ports: 28/65534
+Concurrency: 100
+
+PORT      STATE     SERVICE
+59276     open      unknown
+59271     open      unknown
+51000     open      unknown
+51002     open      unknown
+51001     open      unknown
+51006     open      unknown
+51007     open      unknown
+51005     open      unknown
+49503     open      unknown
+49357     open      unknown
+40745     open      unknown
+34029     open      unknown
+33731     open      unknown
+33331     open      unknown
+32927     open      unknown
+24282     open      unknown
+11434     open      unknown
+11435     open      unknown
+ 9121     open      unknown
+ 9097     open      unknown
+ 7898     open      unknown
+ 7895     open      unknown
+ 7890     open      unknown
+ 7899     open      unknown
+ 7071     open      unknown
+ 3456     open      unknown
+ 2233     open      unknown
+   80     open      http

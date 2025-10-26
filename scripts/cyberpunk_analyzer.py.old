@@ -1,0 +1,493 @@
+#!/usr/bin/env python3
+"""
+ █████╗ ██╗      ██████╗ ██╗  ██╗    ██████╗ ██╗  ██╗
+██╔══██╗██║      ██╔══██╗██║ ██╔╝    ██╔══██╗██║ ██╔╝
+███████║██║█████╗██████╔╝█████╔╝     ██████╔╝█████╔╝ 
+██╔══██║██║╚════╝██╔═══╝ ██╔═██╗     ██╔═══╝ ██╔═██╗ 
+██║  ██║██║      ██║     ██║  ██╗    ██║     ██║  ██╗
+╚═╝  ╚═╝╚═╝      ╚═╝     ╚═╝  ╚═╝    ╚═╝     ╚═╝  ╚═╝
+                                                       
+Cyberpunk AI Benchmark Analyzer - ZigScan Edition
+Author: @gnusec | Target: AI Engine Performance Analysis
+"""
+
+import os
+import re
+import json
+from pathlib import Path
+from typing import Dict, List, Optional
+from datetime import datetime
+from collections import defaultdict
+
+BENCH_PATH = "/home/winger/code/zig/ai-pk/benchmarks/zigscan"
+
+# 引擎和客户端映射
+ENGINE_PATTERNS = {
+    'gpt5': 'GPT-5',
+    'gpt4': 'GPT-4',
+    'claude': 'Claude',
+    'sonnet': 'Claude Sonnet',
+    'opus': 'Claude Opus',
+    'glm4': 'GLM-4',
+    'qwen': 'Qwen',
+    'grok': 'Grok',
+    'supernova': 'Supernova',
+    'kat': 'Kat',
+    'kimi': 'Kimi',
+}
+
+CLIENT_PATTERNS = {
+    'droid': 'Droid',
+    'dorid': 'Droid',  # typo in naming
+    'cline': 'Cline',
+    'kilo': 'Kilo', 
+    'roo': 'Roo',
+    'codex': 'Codex',
+    'claudecode': 'ClaudeCode',
+    'cli': 'CLI',
+}
+
+def parse_engine_client(dirname: str) -> tuple:
+    """从目录名提取引擎和客户端 - 第一个部分是引擎，其余都是客户端/配置"""
+    dirname_lower = dirname.lower()
+    
+    # 支持下划线和连字符分割
+    # 格式1: engine-client-config (如 gpt5-codex-low)
+    # 格式2: engine_config-client (如 gpt5_codex_medium-codex)
+    # 先按 '-' 分割主要部分
+    if '-' in dirname:
+        main_parts = dirname.split('-', 1)  # 只分割第一个连字符
+        engine_part = main_parts[0]
+        client_part = main_parts[1] if len(main_parts) > 1 else ""
+        
+        # 如果engine_part包含下划线，说明是 engine_config 格式
+        if '_' in engine_part:
+            # gpt5_codex_medium-codex -> engine=gpt5_codex_medium, client=codex
+            parts = [engine_part, client_part] if client_part else [engine_part]
+        else:
+            # gpt5-codex-low -> 正常分割
+            parts = dirname.split('-')
+    else:
+        # 没有连字符，尝试下划线
+        parts = dirname.split('_') if '_' in dirname else [dirname]
+    
+    engine = "Unknown"
+    client_parts = []
+    
+    # 第一个部分是引擎（可能包含下划线的配置）
+    if len(parts) > 0:
+        first = parts[0].lower()
+        # 处理 gpt5_codex_medium 这种格式
+        if '_' in first:
+            # 提取引擎名和配置
+            sub_parts = first.split('_')
+            if 'gpt5' in sub_parts[0] or 'gpt4' in sub_parts[0]:
+                engine = "GPT-5" if 'gpt5' in sub_parts[0] else "GPT-4"
+                # 把配置部分也加入引擎名
+                if len(sub_parts) > 1:
+                    config = '_'.join(sub_parts[1:])
+                    engine = f"{engine} ({config})"
+            elif 'glm' in sub_parts[0]:
+                engine = "GLM-4"
+                if len(sub_parts) > 1:
+                    engine = f"{engine} ({sub_parts[1]})"
+            else:
+                engine = first.replace('_', ' ').title()
+        else:
+            # 普通格式
+            if 'gpt5' in first or 'gpt4' in first:
+                engine = "GPT-5" if 'gpt5' in first else "GPT-4"
+            elif 'claude' in first:
+                engine = "Claude"
+            elif 'sonnet' in first:
+                engine = "Claude Sonnet"
+            elif 'opus' in first:
+                engine = "Claude Opus"
+            elif 'glm' in first:
+                engine = "GLM-4"
+            elif 'qwen' in first:
+                engine = "Qwen"
+            elif 'grok' in first:
+                engine = "Grok"
+            elif 'supernova' in first:
+                engine = "Supernova"
+            elif 'kat' in first:
+                engine = "Kat"
+            elif 'kimi' in first:
+                engine = "Kimi"
+            else:
+                engine = parts[0].capitalize()
+    
+    # 其余部分组成客户端/配置描述
+    if len(parts) > 1:
+        # 除了第一个引擎部分，其他都是客户端/配置
+        client_parts = parts[1:]
+        client = '-'.join([p.capitalize() for p in client_parts])
+        # 去除日期后缀（如 -2025-10-25）
+        import re
+        client = re.sub(r'-\d{4}-\d{2}-\d{2}$', '', client)
+    else:
+        client = "Default"
+    
+    return engine, client
+
+def extract_user_comments(content: str) -> List[str]:
+    """提取finish.log中的用户评论和关键描述"""
+    comments = []
+    
+    # 寻找分隔线之间的内容
+    sections = re.split(r'-{5,}', content)
+    for section in sections:
+        section = section.strip()
+        if not section:
+            continue
+        
+        # 过滤掉纯粹的时间戳、命令输出
+        if re.match(r'^\d{4}年', section):
+            continue
+        if section.startswith('$'):
+            continue
+        if 'real' in section and 'user' in section and 'sys' in section:
+            continue
+        
+        # 提取有意义的评论
+        lines = [l.strip() for l in section.split('\n') if l.strip()]
+        for line in lines:
+            if len(line) < 10:  # 太短的忽略
+                continue
+            if any(keyword in line for keyword in ['可用', '完成', '失败', '扯淡', '总结', '评价', '结论', 'bug', 'Bug', 'token']):
+                comments.append(line)
+    
+    return comments[:5]  # 最多5条
+
+def parse_finish_log_fallback(log_path: str) -> Dict:
+    """深度解析finish.log"""
+    result = {
+        "test_dir": os.path.basename(os.path.dirname(log_path)),
+        "engine": "Unknown",
+        "client": "Unknown",
+        "completed": "unknown",
+        "time_minutes": None,
+        "tokens": None,
+        "notes": "",
+        "user_comments": [],
+        "quality_score": 0,  # 质量评分 0-10
+    }
+    
+    # 解析引擎和客户端
+    result["engine"], result["client"] = parse_engine_client(result["test_dir"])
+    
+    try:
+        with open(log_path, 'r', encoding='utf-8', errors='ignore') as f:
+            content = f.read()
+        
+        # 提取时间
+        time_match = re.search(r'real\s+(\d+)m([\d.]+)s', content)
+        if time_match:
+            result["time_minutes"] = int(time_match.group(1)) + float(time_match.group(2))/60
+        
+        time_match2 = re.search(r'用时[：:]*\s*(\d+)\s*分钟', content)
+        if time_match2:
+            result["time_minutes"] = int(time_match2.group(1))
+        
+        # 时间计算（开始-结束）
+        if '用时' in content or 'Wall Time' in content:
+            time_context = re.search(r'(\d+)h\s*(\d+)m\s*(\d+)s', content)
+            if time_context:
+                h, m, s = map(int, time_context.groups())
+                result["time_minutes"] = h * 60 + m + s / 60
+        
+        # 提取tokens - 多种格式
+        token_patterns = [
+            r'tokens?\s*(?:used|Usage|消耗)[：:]*\s*([\d,_]+)',
+            r'Input.*?:\s*([\d,_]+)',
+            r'Output.*?:\s*([\d,_]+)',
+        ]
+        for pattern in token_patterns:
+            token_match = re.search(pattern, content, re.IGNORECASE)
+            if token_match:
+                result["tokens"] = int(token_match.group(1).replace(',', '').replace('_', ''))
+                break
+        
+        # 判断完成情况 - 基于手写finish.log的严格判断
+        content_lower = content.lower()
+        
+        # 1. 明确失败的关键词（优先级最高）
+        fail_keywords = ['无法完成', '无法成功', '不再测试', '失败', '很扯淡', '基本不可用']
+        if any(word in content for word in fail_keywords):
+            result["completed"] = "❌ FAILED"
+            result["quality_score"] = 0
+            if '无法完成' in content or '无法成功' in content:
+                result["notes"] = "Cannot complete"
+            elif '很扯淡' in content:
+                result["notes"] = "Total garbage"
+            elif '基本不可用' in content:
+                result["notes"] = "Not working"
+        
+        # 2. 明确成功的关键词（基于手写评价）
+        elif any(word in content for word in [
+            '整体可用', 
+            '功能完全可用', 
+            '完成度很高', 
+            '任务完成，功能正常',
+            '功能正常',
+            '非常流程'
+        ]) and 'zig-out/bin' in content:
+            result["completed"] = "✅ SUCCESS"
+            result["quality_score"] = 8
+            if '没问题' in content or '完成度很高' in content:
+                result["notes"] = "Fully working"
+        
+        # 3. 部分可用（有运行输出但有问题）
+        elif '大部分可用' in content:
+            result["completed"] = "⚠️ PARTIAL"
+            result["quality_score"] = 5
+            if '并发控制' in content and '无效' in content:
+                result["notes"] = "Concurrency broken"
+            else:
+                result["notes"] = "Mostly working"
+        
+        # 4. 总体可用但有投机行为或其他问题
+        elif '总体可用' in content:
+            result["completed"] = "⚠️ PARTIAL"
+            result["quality_score"] = 6
+            if 'ncat' in content or '投机' in content:
+                result["notes"] = "Uses workarounds"
+            else:
+                result["notes"] = "Generally working"
+        
+        # 5. 可用但有严重bug（integer overflow等）
+        elif ('可以用' in content or '可用' in content) and ('integer overflow' in content or 'panic' in content):
+            result["completed"] = "⚠️ PARTIAL"
+            result["quality_score"] = 4
+            result["notes"] = "Has critical bugs"
+        
+        # 6. 有运行输出且可用
+        elif 'zig-out/bin' in content and any(word in content for word in ['Scan completed', 'Open ports', '可以用']):
+            result["completed"] = "✅ SUCCESS"
+            result["quality_score"] = 7
+        
+        # 7. 默认不明确
+        else:
+            result["completed"] = "❓ UNCLEAR"
+            result["quality_score"] = 3
+        
+        # 提取用户评论
+        result["user_comments"] = extract_user_comments(content)
+        
+        # 提取关键描述作为notes
+        if 'bug' in content_lower or 'Bug' in content:
+            result["notes"] = "Has bugs"
+            result["quality_score"] = max(result["quality_score"] - 2, 0)
+        elif '功能正常' in content:
+            result["notes"] = "Fully working"
+        elif '大部分可用' in content:
+            result["notes"] = "Mostly working"
+        elif '不可用' in content or '基本不可用' in content:
+            result["notes"] = "Not working"
+            result["quality_score"] = 1
+        elif '扯淡' in content:
+            result["notes"] = "Total failure"
+            result["quality_score"] = 0
+            
+    except Exception as e:
+        print(f"⚠️  Warning: Error parsing {log_path}: {e}")
+    
+
+def load_stats_json(test_dir):
+    """从stats.json加载测试数据（优先）"""
+    stats_file = os.path.join(test_dir, 'stats.json')
+    if not os.path.exists(stats_file):
+        return None
+    
+    try:
+        with open(stats_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        # 转换为统一格式
+        return {
+            'test_dir': data.get('test_dir', os.path.basename(test_dir)),
+            'engine': data.get('engine', 'Unknown'),
+            'client': data.get('client', 'Unknown'),
+            'config': data.get('config', ''),
+            'completed': data.get('completed', 'UNCLEAR'),
+            'time_minutes': data.get('time_minutes'),
+            'tokens': data.get('tokens'),
+            'quality_score': data.get('quality_score', 0),
+            'notes': data.get('notes', ''),
+            'user_comments': [data.get('detailed_comments', '')],
+            'issues': data.get('issues', []),
+            'metadata': data.get('metadata', {}),
+            'source': 'stats.json'
+        }
+    except Exception as e:
+        print(f"[!] Error loading stats.json from {test_dir}: {e}")
+        return None
+
+    return result
+
+def collect_all_results() -> List[Dict]:
+    """收集所有测试结果 - 优先读取stats.json"""
+    results = []
+    
+    # 只扫描benchmarks/zigscan/的直接子目录
+    for item in os.listdir(BENCH_PATH):
+        item_path = os.path.join(BENCH_PATH, item)
+        if not os.path.isdir(item_path):
+            continue
+        
+        # 跳过特殊目录
+        if item in ['start-org', 'start-org-cline', '.marscode']:
+            continue
+        
+        # 优先尝试加载stats.json
+        stats_data = load_stats_json(item_path)
+        if stats_data:
+            print(f"[+] Loaded stats.json for {item}")
+            results.append(stats_data)
+            continue
+        
+        # 回退到解析finish.log
+        log_path = os.path.join(item_path, 'finish.log')
+        if os.path.exists(log_path):
+            result = parse_finish_log_fallback(log_path)
+            results.append(result)
+    
+    # 排序：成功的优先，然后按时间
+    return sorted(results, key=lambda x: (
+        0 if '✅' in x["completed"] else 1 if '⚠️' in x["completed"] else 2 if '❓' in x["completed"] else 3,
+        x["time_minutes"] if x["time_minutes"] else 999999
+    ))
+
+def generate_ascii_art_header():
+    """生成赛博朋克风格的header"""
+    return """
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║   ██████╗ ██╗   ██╗██████╗ ███████╗██████╗ ██████╗ ██╗   ██╗███╗   ██╗ ██╗  ██╗  ║
+║  ██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗██╔══██╗██║   ██║████╗  ██║ ██║ ██╔╝  ║
+║  ██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝██████╔╝██║   ██║██╔██╗ ██║ █████╔╝   ║
+║  ██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗██╔═══╝ ██║   ██║██║╚██╗██║ ██╔═██╗   ║
+║  ╚██████╗   ██║   ██████╔╝███████╗██║  ██║██║     ╚██████╔╝██║ ╚████║ ██║  ██╗  ║
+║   ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═══╝ ╚═╝  ╚═╝  ║
+║                                                                           ║
+║              ░▒▓ AI DEVELOPMENT BENCHMARK SYSTEM v1.0 ▓▒░               ║
+║                   ZigScan Security Tool Evaluation                       ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+[*] SYSTEM: AI-PK Performance Analysis Framework
+[*] TARGET: ZigScan Port Scanner Development
+[*] METHOD: Real-world Project Benchmarking
+[*] AUTHOR: @gnusec / Cybersecurity Research
+║  AI ENGINES TESTED                                                 ║
+╠════════════════════════════════════════════════════════════════════╣
+"""
+    
+    for engine, count in sorted(engines.items(), key=lambda x: -x[1])[:8]:
+        output += f"║  {engine:20s} : {count:2d} tests                            ║\n"
+    
+    output += """╚════════════════════════════════════════════════════════════════════╝
+"""
+    return output
+
+def generate_leaderboard_ascii(results: List[Dict]) -> str:
+    """生成ASCII艺术风格的排行榜"""
+    output = """
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                            🏆 LEADERBOARD 🏆                                  ┃
+┃              Top Performance: Speed × Efficiency × Quality                   ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+┏━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━┯━━━━━━━━┯━━━━━━━━━━┯━━━━━━━━━━┯━━━━━━━━━━┓
+┃ # │ Engine + Client         │ Status │ Time(min)│ Tokens   │ Quality  ┃
+┣━━━┿━━━━━━━━━━━━━━━━━━━━━━━━━┿━━━━━━━━┿━━━━━━━━━━┿━━━━━━━━━━┿━━━━━━━━━━┫
+"""
+    
+    rank = 1
+    for r in results[:20]:  # Top 20
+        engine_client = f"{r['engine']} + {r['client']}"[:23]
+        time_str = f"{r['time_minutes']:.1f}" if r['time_minutes'] else "N/A"
+        token_str = f"{r['tokens']//1000}K" if r['tokens'] else "N/A"
+        quality_bar = "█" * r['quality_score'] + "░" * (10 - r['quality_score'])
+        
+        output += f"┃{rank:3d}│ {engine_client:23s} │ {r['completed']:6s} │{time_str:>9s} │{token_str:>9s} │ {quality_bar} ┃\n"
+        rank += 1
+    
+    output += """┗━━━┷━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━━━━━━┷━━━━━━━━━━┷━━━━━━━━━━┷━━━━━━━━━━┛
+
+Legend:
+  ✅ SUCCESS = Fully working    ⚠️  = Partial/Mostly    ❌ = Failed    ❓ = Unclear
+  Quality Bar = ██████████ (10/10 best)
+"""
+    return output
+
+def generate_detailed_report(results: List[Dict]) -> str:
+    """生成详细报告"""
+    output = """
+╔════════════════════════════════════════════════════════════════════╗
+║                    DETAILED TEST RESULTS                           ║
+╚════════════════════════════════════════════════════════════════════╝
+
+"""
+    
+    for i, r in enumerate(results, 1):
+        output += f"""
+┌─ Test #{i:02d} ─────────────────────────────────────────────────────┐
+│ Directory   : {r['test_dir']:47s} │
+│ AI Engine   : {r['engine']:47s} │
+│ Client      : {r['client']:47s} │
+│ Status      : {r['completed']:47s} │
+│ Time        : {(str(r['time_minutes']) + ' min' if r['time_minutes'] else 'N/A'):47s} │
+│ Tokens      : {(str(r['tokens']) if r['tokens'] else 'N/A'):47s} │
+│ Quality     : {'▓' * r['quality_score'] + '░' * (10-r['quality_score']):47s} │
+│ Notes       : {r['notes']:47s} │
+"""
+        if r['user_comments']:
+            output += "│ Comments    :                                               │\n"
+            for comment in r['user_comments'][:3]:
+                comment_short = comment[:55]
+                output += f"│   • {comment_short:53s} │\n"
+        
+        output += "└─────────────────────────────────────────────────────────────┘\n"
+    
+    return output
+
+def save_report(content: str, filename: str):
+    """保存报告"""
+    output_path = f"/home/winger/code/zig/ai-pk/results/{filename}"
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+    print(f"[+] Report saved: {output_path}")
+
+def main():
+    print(generate_ascii_art_header())
+    print("[*] Scanning benchmarks directory...")
+    
+    results = collect_all_results()
+    print(f"[+] Found {len(results)} test results")
+    
+    # 生成赛博朋克风格报告
+    report = ""
+    report += generate_ascii_art_header()
+    report += generate_stats_summary(results)
+    report += generate_leaderboard_ascii(results)
+    report += generate_detailed_report(results)
+    
+    # 保存报告
+    save_report(report, "CYBERPUNK_REPORT.txt")
+    
+    # 也保存JSON供后续处理
+    json_data = json.dumps(results, indent=2, ensure_ascii=False)
+    save_report(json_data, "benchmark_data.json")
+    
+    # 打印摘要到终端
+    print(generate_stats_summary(results))
+    print(generate_leaderboard_ascii(results)[:1000])
+    
+    print("\n[+] Analysis complete!")
+    print("[+] Full report: results/CYBERPUNK_REPORT.txt")
+    print("[+] JSON data: results/benchmark_data.json")
+
+if __name__ == "__main__":
+    main()

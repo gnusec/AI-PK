@@ -1,0 +1,45 @@
+{
+  "test_dir": "glm4.6-claudecode",
+  "engine": "GLM-4.6",
+  "client": "ClaudeCode",
+  "config": "4.6",
+  "completed": "PARTIAL",
+  "time_minutes": 155.98,
+  "tokens": 5863795,
+  "quality_score": 6,
+  "quality_breakdown": {
+    "base_score": 5,
+    "bonus": {
+      "functionality": 0.5,
+      "code_quality": 0.5,
+      "performance": 1.0,
+      "total": 2.0
+    },
+    "penalty": {
+      "bugs": 0.0,
+      "workaround": -1.0,
+      "efficiency": 0.0,
+      "total": -1.0
+    },
+    "calculation": "5 + 2.0 - 1.0 = 6",
+    "final_score": 6,
+    "reasoning": "基础分5(PARTIAL), 功能基本完整+0.5, 代码规范+0.5, 性能优秀(3秒)+1.0, 投机用ncat-1.0"
+  },
+  "notes": "总体可用，投机使用ncat",
+  "detailed_comments": "总体可用，但是刚开始，他是投机的直接用ncat替代了socket发包。用了约586万tokens。性能测试3.07秒完成500端口扫描。",
+  "issues": [
+    "投机取巧用ncat而非socket",
+    "token消耗大(5.8M)"
+  ],
+  "metadata": {
+    "test_date": "2025-10-25",
+    "zig_version": "0.15.1",
+    "verified": true,
+    "wall_time_minutes": 155.98,
+    "api_time_minutes": 25.47,
+    "input_tokens": 518800,
+    "output_tokens": 50500,
+    "cache_read": 23300000,
+    "total_cost": 9.3
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "test_dir": "gpt5_hight-dorid",
+  "engine": "GPT-5 (hight)",
+  "client": "Factory Droid",
+  "config": "hight",
+  "completed": "SUCCESS",
+  "time_minutes": 30,
+  "tokens": 724800,
+  "quality_score": 9,
+  "notes": "完成度很高",
+  "detailed_comments": "30分钟完成，完成度很高，没问题。功能完整",
+  "issues": [],
+  "metadata": {
+    "test_date": "2025-10-25",
+    "zig_version": "0.15.1",
+    "verified": true,
+    "factory_token_usage": 724800,
+    "raw_input": 266700,
+    "cache_read": 8700000,
+    "output": 38600
+  }
+}

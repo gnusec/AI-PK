@@ -1,0 +1,39 @@
+{
+  "test_dir": "gpt5_hight-codex",
+  "engine": "GPT-5 (hight)",
+  "client": "Codex CLI",
+  "config": "hight",
+  "completed": "PARTIAL",
+  "time_minutes": 20.4,
+  "tokens": 151588,
+  "quality_score": 6,
+  "quality_breakdown": {
+    "base_score": 5,
+    "bonus": {
+      "functionality": 0.5,
+      "code_quality": 0.5,
+      "performance": 1.0,
+      "total": 2.0
+    },
+    "penalty": {
+      "bugs": -1.0,
+      "workaround": 0.0,
+      "efficiency": 0.0,
+      "total": -1.0
+    },
+    "calculation": "5 + 2.0 - 1.0 = 6",
+    "final_score": 6,
+    "reasoning": "基础分5(PARTIAL-大部分可用), 功能基本完整+0.5, 代码规范+0.5, 性能优秀(203ms扫描65535端口)+1.0, 直接运行报错bug-1.0"
+  },
+  "notes": "大部分可用",
+  "detailed_comments": "大部分可用。用时20.4分钟，token用量151,588。性能优秀65535端口仅203ms。不加参数直接运行会报错。",
+  "issues": [
+    "不加参数直接运行会报错"
+  ],
+  "metadata": {
+    "test_date": "2025-10-01",
+    "zig_version": "0.15.1",
+    "verified": true,
+    "performance_test": "65535 ports in 203ms"
+  }
+}

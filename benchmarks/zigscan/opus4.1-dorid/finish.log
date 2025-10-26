@@ -1,0 +1,75 @@
+
+
+--------------
+成功
+SUCCESS
+18分钟，目前最快的。
+功能完全可用
+就是token起飞用了 3.7M
+
+除了贵没其他问题
+-------------------
+Session Token Usage
+
+   Raw Token Usage in this session:
+   - Input: 517 tokens
+   - Cache Creation: 63.9K tokens
+   - Cache Read: 4.1M tokens
+   - Output: 25.1K tokens
+
+   Factory Token Usage (approximate):
+   3.7M tokens
+
+
+
+
+------------------
+└──╼ $./scanner 
+Usage: scanner [OPTIONS] <TARGET>
+
+High-performance TCP port scanner
+
+ARGUMENTS:
+  <TARGET>              IP address or hostname to scan
+
+OPTIONS:
+  -h, --help            Show this help message
+  -p, --ports <PORTS>   Specify ports to scan (default: common ports)
+                        Examples: -p 80  -p 80,443,8080  -p 1-1000
+  -r, --range <RANGE>   Port range to scan (e.g., 1-65535)
+  -c, --concurrency <N> Number of concurrent connections (default: 500)
+  -t, --timeout <MS>    Connection timeout in milliseconds (default: 1000)
+  -f, --file <FILE>     Read target IPs from file (one per line)
+  -o, --output <FMT>    Output format: normal, json, txt (default: normal)
+
+EXAMPLES:
+  scanner 192.168.1.1 -p 80,443
+  scanner 10.0.0.1 -r 1-1000 -c 1000
+  scanner 8.8.8.8 -p 53,80,443 -o json
+┌─[winger@parrot]─[~/code/zig/zigscan/opus4.1-dorid]
+└──╼ $grep RCVTIMEO -r ..^C
+┌─[✗]─[winger@parrot]─[~/code/zig/zigscan/opus4.1-dorid]
+└──╼ $./scanner 103.235.46.115 -r 80-443 -c 50 -t 500 -o txt
+103.235.46.115:443
+┌─[winger@parrot]─[~/code/zig/zigscan/opus4.1-dorid]
+└──╼ $time  ./scanner 103.235.46.115 -r 80-443 -c 50 -t 500 -o json
+[{"host":"103.235.46.115","open_ports":[80,443]}]
+
+real	0m4.010s
+user	0m0.000s
+sys	0m0.064s
+┌─[winger@parrot]─[~/code/zig/zigscan/opus4.1-dorid]
+└──╼ $time  ./scanner 103.235.46.115 -r 80-443 -c 200 -t 500 -o json
+[{"host":"103.235.46.115","open_ports":[80,443]}]
+
+real	0m1.007s
+user	0m0.000s
+sys	0m0.026s
+┌─[winger@parrot]─[~/code/zig/zigscan/opus4.1-dorid]
+└──╼ $time  ./scanner 103.235.46.115 -r 80-443 -c 20 -t 500 -o json
+[{"host":"103.235.46.115","open_ports":[80,443]}]
+
+real	0m9.518s
+user	0m0.000s
+sys	0m0.060s
+

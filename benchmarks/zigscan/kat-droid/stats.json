@@ -1,0 +1,39 @@
+{
+  "test_dir": "kat-droid",
+  "engine": "Kat",
+  "client": "Factory Droid",
+  "config": "kat",
+  "completed": "FAILED",
+  "time_minutes": null,
+  "tokens": null,
+  "quality_score": 0,
+  "quality_breakdown": {
+    "base_score": 0,
+    "bonus": {
+      "functionality": 0.0,
+      "code_quality": 0.0,
+      "performance": 0.0,
+      "total": 0.0
+    },
+    "penalty": {
+      "bugs": 0.0,
+      "workaround": 0.0,
+      "efficiency": 0.0,
+      "total": 0.0
+    },
+    "calculation": "0 + 0.0 - 0.0 = 0",
+    "final_score": 0,
+    "reasoning": "基础分0(FAILED-无法完成), 完全失败无加分"
+  },
+  "notes": "无法完成",
+  "detailed_comments": "无法完成。自己看代码吧 很扯淡的。",
+  "issues": [
+    "无法完成",
+    "代码很扯淡"
+  ],
+  "metadata": {
+    "test_date": "2025-10-25",
+    "zig_version": "0.15.1",
+    "verified": true
+  }
+}
